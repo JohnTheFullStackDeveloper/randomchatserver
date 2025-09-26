@@ -62,6 +62,7 @@ io.on("connection", (socket) => {
 
     // Handle disconnection
     socket.on("disconnect", () => {
+        io.emit("g", allUsers.length);
         const index = allUsers.indexOf(socket);
         const waitingListIndex = waitingList.findIndex(chat => chat.socket === socket);
         const index1 = chatList.findIndex(chat => chat.first.socket.id === socket.id);
@@ -92,5 +93,6 @@ io.on("connection", (socket) => {
 server.listen(3000, () => {
     console.log("Server listening on http://localhost:3000");
 });
+
 
 
