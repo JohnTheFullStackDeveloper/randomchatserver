@@ -5,7 +5,12 @@ const socketIo = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server,{cors:{
+        origins:"*",
+        method:"GET",
+        allowedHeaders:true,
+        credentials:true
+    }});
 
 // Serve the static files from the "public" folder
 app.use(express.static("public"));
@@ -17,6 +22,7 @@ io.on("connection", (socket) => {
     allUsers.push(socket);
     console.log("A client connected:", socket.id);
     // Listen for messages from the client
+    io.emit("g", allUsers.length);
     socket.on("message", (data) => {
         const index1 = chatList.findIndex(chat => chat.first.socket.id === socket.id);
         const index2 = chatList.findIndex(chat => chat.second.socket.id === socket.id);
@@ -78,10 +84,11 @@ io.on("connection", (socket) => {
         console.log("Client disconnected:", socket.id);
     });
 });
-setInterval(() => {
-    io.emit("g", allUsers.length);
-}, 1000);
+// setInterval(() => {
+//     io.emit("g", allUsers.length);
+// }, 1000);
 // Start the server on port 3000
 server.listen(3000, () => {
     console.log("Server listening on http://localhost:3000");
 });
+
