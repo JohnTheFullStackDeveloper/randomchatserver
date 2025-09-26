@@ -62,7 +62,7 @@ io.on("connection", (socket) => {
 
     // Handle disconnection
     socket.on("disconnect", () => {
-        io.emit("g", allUsers.length);
+        
         const index = allUsers.indexOf(socket);
         const waitingListIndex = waitingList.findIndex(chat => chat.socket === socket);
         const index1 = chatList.findIndex(chat => chat.first.socket.id === socket.id);
@@ -83,6 +83,7 @@ io.on("connection", (socket) => {
             chatList.at(index2).first.socket.emit("connectedTo", "disconnected");
             chatList.splice(index2, 1);
         }
+            io.emit("g", allUsers.length);
         console.log("Client disconnected:", socket.id);
     });
 });
@@ -93,6 +94,7 @@ io.on("connection", (socket) => {
 server.listen(3000, () => {
     console.log("Server listening on http://localhost:3000");
 });
+
 
 
 
