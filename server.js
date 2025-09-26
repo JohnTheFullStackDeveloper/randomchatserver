@@ -37,6 +37,7 @@ io.on("connection", (socket) => {
         }
     });
     socket.on("connectToChat", (data) => {
+            console.log("connecttochat")
         const i = waitingList.findIndex(chat => chat.socket === socket);
         const index = chatList.findIndex(chat => chat.first.id === socket.id);
         const index2 = chatList.findIndex(chat => chat.second.id === socket.id);
@@ -91,4 +92,5 @@ io.on("connection", (socket) => {
 server.listen(3000, () => {
     console.log("Server listening on http://localhost:3000");
 });
+
 
